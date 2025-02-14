@@ -1,0 +1,23 @@
+.navbar-container {
+  .navbar {
+    .container {
+      .btn-group {
+        display: flex;
+        .btn {
+          margin: 10px 5px;
+          border-radius: 5px solid;
+        }
+      }
+    }
+  }
+}
+
+.content-container {
+  .content {
+    background-color: #f5f5fa;
+  }
+  .card {
+    border-radius: 10px;
+    border: 2px rgb(49, 48, 48) solid;
+  }
+}

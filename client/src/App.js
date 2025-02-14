@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import logo from "./logo.svg";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage/HomePage";
 
 const App = () => {
   return (
@@ -10,8 +10,7 @@ const App = () => {
         <Route index element={<HomePage />} />
       </Route>
     </Routes>
-  )
-
-}
+  );
+};
 
 export default App;
