@@ -3,6 +3,7 @@
     .container {
       .btn-group {
         display: flex;
+
         .btn {
           margin: 10px 5px;
           border-radius: 5px solid;
@@ -14,10 +15,13 @@
 
 .content-container {
   .content {
+    height: 100vh;
     background-color: #f5f5fa;
   }
-  .card {
-    border-radius: 10px;
-    border: 2px rgb(49, 48, 48) solid;
-  }
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }

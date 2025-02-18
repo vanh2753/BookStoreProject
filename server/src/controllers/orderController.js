@@ -38,7 +38,7 @@ const initOrder = async (req, res) => {
         return res.status(500).json({
             EC: 1,
             message: 'Something went wrong',
-            error: error,
+            error: error.message,
         });
     }
 }
@@ -47,7 +47,6 @@ const confirmOrder = async (req, res) => {
     try {
         let user = await getUserByToken(req)
         let currentOrder = await Order.findOne({ where: { buyer_id: user.id, status: 'cart' } })
-        console.log(currentOrder)
         let itemOrder = await fetchOrderDetail(req)
         let itemOrderArr = itemOrder.map((item) => item.dataValues)
 
@@ -70,7 +69,12 @@ const confirmOrder = async (req, res) => {
             })
             return res.status(200).json({
                 EC: 0,
-                message: "update success"
+                message: "update success",
+                data: {
+                    orderId: currentOrder.id,
+                    total_amount: currentOrder.total_amount,
+                    status: currentOrder.status,
+                }
             })
         }
     } catch (error) {

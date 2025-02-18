@@ -10,14 +10,26 @@ import {
   Link
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css'
+import { ToastContainer, toast } from 'react-toastify';
+import { store, persistor } from './redux/store'
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <ToastContainer />
+          <App />
+        </Router>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
+
+// nên cấu hình các thư viện global ở đây (trên <App>)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

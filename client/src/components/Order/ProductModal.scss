@@ -1,0 +1,32 @@
+.modal-content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .image-container img {
+        max-width: 200px;
+        /* Giới hạn chiều rộng của ảnh để không bị vỡ layout */
+        max-height: 300px;
+        object-fit: contain;
+    }
+
+    .info-container {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        .price,
+        .stock {
+            margin-bottom: 10px;
+        }
+    }
+
+    .quantity-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+}

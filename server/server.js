@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 8080;
+const cors = require('cors');
 const { connection, sequelize } = require('./src/config/database')
 const path = require('path')
 
@@ -12,6 +13,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const bookRoutes = require('./src/routes/bookRoutes');
 const orderRoutes = require('./src/routes/orderRoutes')
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

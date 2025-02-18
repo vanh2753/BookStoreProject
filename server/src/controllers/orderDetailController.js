@@ -10,9 +10,13 @@ const createOrderDetail = async (req, res) => {
         let user = await getUserByToken(req)
         let order = await Order.findOne({ where: { buyer_id: user.id, status: 'cart' } })
 
-
         let { quantity, book_id } = req.body
+        console.log(quantity, "and ", book_id)
         let book = await Book.findByPk(book_id)
+
+        if (!book) {
+            return res.status(404).json({ EC: 1, error: "Book not found" });
+        }
 
         const item = await OrderDetail.create({
             quantity: quantity,
@@ -28,7 +32,7 @@ const createOrderDetail = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             EC: 1,
-            error: error
+            error: "ngu dot"
         })
     }
 }

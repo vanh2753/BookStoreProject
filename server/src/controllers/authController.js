@@ -47,11 +47,13 @@ const handleLogin = async (req, res) => {
                             expiresIn: process.env.JWT_EXPIRE
                         }
                     )
+                    // Loại bỏ password từ user
+                    const { password, ...userWithoutPassword } = user.get({ plain: true });
                     return res.status(200).json({
                         EC: 0,
                         message: 'Login',
                         access_token: access_token,
-                        data: user
+                        data: userWithoutPassword
                     })
                 }
                 else {

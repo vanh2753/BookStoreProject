@@ -1,22 +1,86 @@
 import "./home.scss";
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import BookList from "../../components/Book/BookList";
+import { logout } from '../../redux/userSlice';
+import { useEffect, useState } from "react";
+import ProductModal from "../../components/Order/ProductModal";
+import { IoCart } from "react-icons/io5";
+import OrderModal from "../../components/Order/OrderModal";
+import { initOrder } from "../../services/orderService";
+import AutoInitOrder from "../../components/Order/AutoInitOrder";
 
 const HomePage = () => {
+
+  const navigate = useNavigate()
+  const { isLoggedIn, user } = useSelector((state) => state.todosUser)
+  const dispatch = useDispatch()
+
+  const [showModal, setShowModal] = useState(false)
+  const [selectedBook, setSelectedBook] = useState('')
+  const [showCart, setShowCart] = useState(false)
+
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('persist:root');
+    navigate('/');
+  }
+
+  const handleBuy = (book) => {
+    if (isLoggedIn) {
+      setSelectedBook(book);
+      setShowModal(true);
+    } else {
+      navigate('/login')
+    }
+  }
+
+  const handleOpenCart = () => {
+    setShowCart(true)
+  }
+
+  const handleCloseCart = () => {
+    setShowCart(false)
+  }
+
+  const handleClose = () => {
+    setShowModal(false)
+  }
+
+
   return (
     <>
       <div className="navbar-container">
         <nav className="navbar bg-body-tertiary">
           <div className="container">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="#" >
               HOME
             </a>
-            <div className="btn-group">
-              <button type="button" className="btn btn-primary">
-                Login
-              </button>
-              <button type="button" className="btn btn-success">
-                Sign Up
-              </button>
-            </div>
+            {isLoggedIn ? //nếu đã login
+              <div className="header-container">
+                <AutoInitOrder /> {/*tự động khởi tạo cart khi login*/}
+                <button onClick={handleOpenCart}
+                  style={{ background: "none", border: "none", cursor: "pointer" }}> {/*ẩn button*/}
+                  <IoCart size={30} />
+                </button>
+                {// mở giỏ hàng
+                  showCart && <OrderModal show={showCart} handleCloseCart={handleCloseCart} />
+                }
+                <div>Welcome, {user.name}!</div>
+                <button className="btn-logout btn btn-secondary" onClick={handleLogout}>LogOut</button>
+              </div>
+              ://Nếu chưa login
+              <div className="btn-group">
+
+                <button type="button" className="btn btn-primary" onClick={() => { navigate('/login') }}>
+                  Login
+                </button>
+                <button type="button" className="btn btn-success" onClick={() => { navigate('/register') }}>
+                  Sign Up
+                </button>
+              </div>}
           </div>
         </nav>
       </div>
@@ -24,22 +88,14 @@ const HomePage = () => {
         <div className="row">
           <div className="col-2">QC</div>
           <div className="col-8 content ">
-            <div className="card" style={{ width: "18rem", height: "25rem" }}>
-              <img src="..." className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">Price</h5>
-                <p className="card-text">Title</p>
-                <p className="">Author</p>
-              </div>
-              <div className="card-btn">
-                <button type="button" className="btn btn-primary">
-                  View
-                </button>
-                <button type="button" className="btn btn-success">
-                  Buy
-                </button>
-              </div>
-            </div>
+            <BookList clickBuy={handleBuy} />
+            {
+              showModal &&
+              <ProductModal show={showModal} handleClose={handleClose}
+                book={selectedBook}
+              />
+
+            }
           </div>
           <div className="col-2">QC</div>
         </div>
